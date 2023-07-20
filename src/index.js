@@ -34,7 +34,7 @@ TILES.muktar = () => [...TILES.ground(), color(255, 0, 0), z(1), area(), body({ 
 addLevel([
     "                           ",
     "                    N      ",
-    "          M           =    ",
+    "          M   N       =    ",
     " ~~~~~~  ====         =    ",
     " ~~~~~                =    ",
     " ~~~           =      =    ",

@@ -15,11 +15,14 @@ export default function configMuktarControls(muktar, options) {
     });
 
     onKeyDown("enter", () => {
+        console.log("ENTER PRESSED!");
         if (muktar.adjacentInteractables.length > 0) {
+            console.log("Interactable present!")
             const interactable = muktar.adjacentInteractables[0];
 
-            if (interactable.interaction === "talk") {
-                createDialogWindow();
+            if (interactable.behavior.interactionType === "talk") {
+                console.log(`Interactable has this dialog: ${JSON.stringify(interactable.dialog.greeting)}`)
+                createDialogWindow(interactable.dialog.greeting);
             }
         }
     })

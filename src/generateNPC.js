@@ -1,4 +1,4 @@
-import { TILE_WIDTH } from './constants';
+import { INTERACTION_TYPES, TILE_WIDTH } from './constants';
 import { randomColor, randomDelay } from './utils';
 
 const npcDefaultOptions = {
@@ -22,9 +22,10 @@ export default function generateNPC(position, behaviorOptions) {
             movementDelay: randomDelay(),
             behavior: {
                 moveOnDelay,
+                interactionType: INTERACTION_TYPES.TALK,
             },
             dialog: {
-                onInteract: "Hello Muktar! Seen any cool reptiles in the field lately?"
+                greeting: "Hello Muktar! Seen any cool reptiles in the field lately?"
             }
         },
     ];
