@@ -6,7 +6,10 @@ import configMuktar from './configMuktar';
 import { randomFromRange } from "./utils";
 
 
+
 kaboom();
+
+loadSprite("dorknerd", "dorknerd.png");
 
 // Initial tile config
 const TILES = {
@@ -28,7 +31,7 @@ const TILES = {
 // Tiles dependent on other tiles
 TILES.muktarStart = () => [...TILES.ground(), "muktarStart"]; // Make sure to add ground tile to these gameObject generators!
 TILES.newNPC = () => [...TILES.ground(), "newNPC"];
-TILES.muktar = () => [...TILES.ground(), color(255, 0, 0), z(1), area(), body({ isStatic: false }), { speedX: MUKTAR_SPEED, speedY: MUKTAR_SPEED, adjacentInteractables: [], state: STATE.default }];
+TILES.muktar = () => [sprite("dorknerd"), z(1), area(), body({ isStatic: false }), { speedX: MUKTAR_SPEED, speedY: MUKTAR_SPEED, adjacentInteractables: [], state: STATE.default }];
 
 addLevel([
     "                           ",
