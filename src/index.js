@@ -1,10 +1,9 @@
 import kaboom from "kaboom";
 
-import { MUKTAR_SPEED, TILE_WIDTH } from './constants';
+import { MUKTAR_SPEED, TILE_WIDTH, STATE } from './constants';
 import generateNPC from './generateNPC';
 import configMuktar from './configMuktar';
 import { randomFromRange } from "./utils";
-import { createDialogWindow } from "./dialog/utils";
 
 
 kaboom();
@@ -29,7 +28,7 @@ const TILES = {
 // Tiles dependent on other tiles
 TILES.muktarStart = () => [...TILES.ground(), "muktarStart"]; // Make sure to add ground tile to these gameObject generators!
 TILES.newNPC = () => [...TILES.ground(), "newNPC"];
-TILES.muktar = () => [...TILES.ground(), color(255, 0, 0), z(1), area(), body({ isStatic: false }), { speedX: MUKTAR_SPEED, speedY: MUKTAR_SPEED }];
+TILES.muktar = () => [...TILES.ground(), color(255, 0, 0), z(1), area(), body({ isStatic: false }), { speedX: MUKTAR_SPEED, speedY: MUKTAR_SPEED, adjacentInteractables: [], state: STATE.default }];
 
 addLevel([
     "                           ",
@@ -56,9 +55,7 @@ addLevel([
 
 onLoad(() => {
     const muktarStart = get("muktarStart", { recursive: true })[0];
-    const muktar = add([...TILES.muktar(), pos(muktarStart.pos.x, muktarStart.pos.y), {
-        adjacentInteractables: [],
-    }]);
+    const muktar = add([...TILES.muktar(), pos(muktarStart.pos.x, muktarStart.pos.y)]);
     configMuktar(muktar);
 
     const npcsToGenerate = get("newNPC", { recursive: true });
