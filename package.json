@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "rm -rf ./public/dist && cp -r ./dist ./public && npx webpack serve"
+    "build": "rm -rf ./public/dist && npx webpack && cp -r ./dist ./public",
+    "serve": "npx webpack serve",
+    "docs": "cp -r ./public ./docs"
   },
   "keywords": [],
   "author": "",

@@ -32,7 +32,7 @@ export default function generateNPC(position, behaviorOptions) {
   ];
 
   return [
-    rect(TILE_WIDTH, TILE_WIDTH),
+    sprite("dorknerd"),
     color(col),
     pos(position),
     area(),

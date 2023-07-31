@@ -1,41 +1,28 @@
 import kaboom from "kaboom";
 
-import { MUKTAR_SPEED, TILE_WIDTH, STATE } from './constants';
+import { MUKTAR_SPEED, TILE_WIDTH, STATE, TILES, ENEMIES } from './constants';
 import generateNPC from './generateNPC';
 import configMuktar from './configMuktar';
 import { randomFromRange } from "./utils";
-
-
+import { onLevelLoad } from "./level";
+import initBattleScene from "./scenes/battle";
 
 kaboom();
 
-loadSprite("dorknerd", "dorknerd.png");
-
-// Initial tile config
-const TILES = {
-    ground: () => [
-        rect(TILE_WIDTH, TILE_WIDTH),
-        color(65, 255, 65),
-        z(0), // Make the ground below everything!
-        "ground",
-    ],
-    water: () => [
-        rect(TILE_WIDTH, TILE_WIDTH),
-        color(65, 0, 225),
-        z(0),
-        "water",
-    ],
-    wall: () => [rect(TILE_WIDTH, TILE_WIDTH), color(0, 0, 0), z(1), area(), body({ isStatic: true }), "wall"],
-};
+loadSprite("dorknerd", "Dorknerd.png");
+loadSprite("slime", "Slime.png");
 
 // Tiles dependent on other tiles
 TILES.muktarStart = () => [...TILES.ground(), "muktarStart"]; // Make sure to add ground tile to these gameObject generators!
 TILES.newNPC = () => [...TILES.ground(), "newNPC"];
-TILES.muktar = () => [sprite("dorknerd"), z(1), area(), body({ isStatic: false }), { speedX: MUKTAR_SPEED, speedY: MUKTAR_SPEED, adjacentInteractables: [], state: STATE.default }];
+TILES.muktar = () => [sprite("dorknerd"), z(1), area(), body({ isStatic: false }), { speedX: MUKTAR_SPEED, speedY: MUKTAR_SPEED, adjacentInteractables: [], state: STATE.default }, "muktar"];
+TILES.slime = () => [...TILES.ground(), "monster", { monsterType: ENEMIES.SLIME }];
+
+initBattleScene();
 
 addLevel([
     "                           ",
-    "                    N      ",
+    "   S                N      ",
     "          M   N       =    ",
     " ~~~~~~  ====         =    ",
     " ~~~~~                =    ",
@@ -53,27 +40,11 @@ addLevel([
         "=": TILES.wall,
         "M": TILES.muktarStart,
         "N": TILES.newNPC,
+        "S": TILES.slime,
     }
 });
 
-onLoad(() => {
-    const muktarStart = get("muktarStart", { recursive: true })[0];
-    const muktar = add([...TILES.muktar(), pos(muktarStart.pos.x, muktarStart.pos.y)]);
-    configMuktar(muktar);
 
-    const npcsToGenerate = get("newNPC", { recursive: true });
 
-    npcsToGenerate.forEach((newNPC, index) => {
-        const generatedNPC = generateNPC(newNPC.pos, { idTag: `generatedNPC${index}`});
-
-        // Add NPC behavior
-        onUpdate(generatedNPC.idTag, (npcToUpdate) => {
-            wait(npcToUpdate.movementDelay);
-            const movement = [randomFromRange(0, 1), randomFromRange(0, 1)];
-            npcToUpdate.move(movement)
-        });
-
-        add(generatedNPC);
-    });
-});
+onLoad(onLevelLoad);
 
