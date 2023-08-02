@@ -1,2 +1,2 @@
-# muktarquest
-A classic game about cryptid creatures and the humble herpetologist who studies them
+# cloudpiercer-2d
+A 2D demo of some of the gameplay concepts I have in mind for the full Cloudpiercer game.
